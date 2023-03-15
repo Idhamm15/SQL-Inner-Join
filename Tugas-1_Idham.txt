@@ -1,0 +1,7 @@
+call masuk_daftar_nama('M. DAUDI','L','087700019741','Jln. Ranca Keling RT 03 RW 05 Desa Jembayat Kec. Margasari Kab.Tegal 52463','Tegal','1976/07/01','m.daudi@gmail.com','1');
+
+call masuk_daftar_nama('SITI ARHAMAH','P','085229044669','Jln. Kemantren RT 05 RW 03 Desa Jembayat Kec. Margasari Kab.Tegal 52463','Tegal','1981/05/08','arkhamah436@gmail.com','1');
+
+call masuk_daftar_nama('MOHAMAD IDHAM BAHRI','L','083824723921','Jln. Kemantren RT 05 RW 03 Desa Jembayat Kec. Margasari Kab.Tegal 52463','Tegal','2003/02/15','idhamtamvanz123@gmail.com','1');
+
+call masuk_daftar_nama('AIDA NUR KUSUMA WATI','P','085293512579','Jln. Kemantren RT 05 RW 03 Desa Jembayat Kec. Margasari Kab.Tegal 52463','Tegal','2008/06/01','nurkusuma@gmail.com','1');

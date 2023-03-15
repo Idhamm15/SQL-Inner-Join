@@ -1,0 +1,86 @@
+//Membuat table mahasiswa
+CREATE TABLE mahasiswa (
+    nim CHAR(8),
+    nama VARCHAR(35),
+    jk CHAR(9),
+    email VARCHAR(35),
+    no_hp VARCHAR(14),
+    agama VARCHAR(10),
+    alamat VARCHAR(300),
+    tempat_lahir VARCHAR(20),
+    tanggal_lahir DATE
+);
+
+//Meng set nim sebagai primary key
+ALTER TABLE mahasiswa ADD CONSTRAINT mhs_pk PRIMARY KEY(nim);
+//Meng set email sebagai unique key
+ALTER TABLE mahasiswa ADD CONSTRAINT email_mhs_uq UNIQUE(email);
+//Meng set no_hp sebagai unique key
+ALTER TABLE mahasiswa ADD CONSTRAINT hp_mhs_uq UNIQUE(no_hp);
+
+//Set Jenis Kelamin ( Tabel Mahasiswa )
+ALTER TABLE mahasiswa
+ADD CONSTRAINT jk_mhs_ck
+CHECK(jk IN('Laki-laki','Perempuan'));
+
+//Set Agama ( Tabel Mahasiswa ) 
+ALTER TABLE mahasiswa 
+ADD CONSTRAINT agama_mhs_ck 
+CHECK(agama IN('Islam','Kristen','Katolik','Hindu','Budha','Konghucu'));
+
+//Set Email ( Tabel Mahasiswa )
+ALTER TABLE mahasiswa
+ADD CONSTRAINT email_mhs_ck
+CHECK(email LIKE '%@%.%');
+
+-//Set No.Hp
+ALTER TABLE mahasiswa 
+ADD CONSTRAINT no_hp_mhs_ck 
+CHECK(no_hp LIKE '%08%');
+
+
+
+
+
+
+
+
+================================== Pertemuan 3 ============================================= 
+
+
+
+--Insert table pekerjaan
+INSERT INTO pekerjaan(pekerjaan) VALUES('Pilot'), ('Polisi'), ('Dokter'), ('Guru'), ('Dosen'), ('Perawat'), ('TNI');
+
+--Membuat table data mahasiswa
+CREATE TABLE `data_mahasiswa` (
+  `nim` char(8) NOT NULL,
+  `nama` varchar(35) NOT NULL,
+  `nama_ayah` varchar(35) NOT NULL,
+  `id_pekerjaan_ayah` int(11) NOT NULL,
+  `nama_ibu` varchar(35) NOT NULL,
+  `id_pekerjaan_ibu` int(11) NOT NULL
+) 
+
+--Insert Data Mahasiswa 
+INSERT INTO `data_mahasiswa`(`nim`, `nama`, `nama_ayah`, `id_pekerjaan_ayah`, `nama_ibu`, `id_pekerjaan_ibu`) VALUES (21090078, 'Rafael', 'Parno', 7, 'Muarni', 4), (21090007, 'Adrian', 'Saep', 4, 'Siti', 5), (21090060, 'Febrian', 'Kusno', 3, 'Tukiyem', NULL), (21090049, 'Naufal', 'Budi', 2, 'Sumarni', 6), (21090000, 'Fulan', 'Almarhum', NULL, 'Febi', 3)
+
+
+--Join 2 Tabel
+SELECT data_mahasiswa.nim, data_mahasiswa.nama, data_mahasiswa.nama_ayah,pekerjaan.pekerjaan
+FROM
+data_mahasiswa INNER JOIN pekerjaan ON
+pekerjaan.id_pekerjaan = data_mahasiswa.id_pekerjaan_ayah
+
+--Join data ayah dan ibu
+SELECT dm.nim, dm.nama, dm.nama_ayah, pa.pekerjaan, dm.nama_ibu, pi.pekerjaan FROM data_mahasiswa dm INNER JOIN pekerjaan pa ON dm.id_pekerjaan_ayah = pa.id_pekerjaan INNER JOIN pekerjaan pi ON dm.id_pekerjaan_ibu = pi.id_pekerjaan
+
+
+--LEFT JOIN data ayah
+SELECT nim, nama, nama_ayah, pa.pekerjaan AS pekerjaan_ayah
+FROM
+data_mahasiswa dm LEFT JOIN pekerjaan.pa
+ON dm.id_pekerjaan_ayah = pa.id_pekerjaan
+
+
+

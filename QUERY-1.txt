@@ -1,0 +1,63 @@
+--Membuat table mahasiswa
+CREATE TABLE mahasiswa (
+    nim CHAR(8),
+    nama VARCHAR(35),
+    jk CHAR(9),
+    email VARCHAR(35),
+    no_hp VARCHAR(14),
+    agama VARCHAR(10)
+);
+
+--Meng set nim sebagai primary key
+ALTER TABLE mahasiswa ADD CONSTRAINT mhs_pk PRIMARY KEY(nim);
+--Meng set email sebagai unique key
+ALTER TABLE mahasiswa ADD CONSTRAINT email_mhs_uq UNIQUE(email);
+-- Meng set no_hp sebagai unique key
+ALTER TABLE mahasiswa ADD CONSTRAINT hp_mhs_uq UNIQUE(no_hp);
+
+-- Set Jenis Kelamin ( Tabel Mahasiswa )
+ALTER TABLE mahasiswa
+ADD CONSTRAINT jk_mhs_ck
+CHECK(jk IN('Laki-laki','Perempuan'))
+
+-- Set Agama ( Tabel Mahasiswa ) 
+ALTER TABLE mahasiswa 
+ADD CONSTRAINT agama_mhs_ck 
+CHECK(agama IN('Islam','Kristen','Katolik','Hindu','Budha','Konghucu'));
+
+-- Set Validasi Email ( Tabel Mahasiswa )
+ALTER TABLE mahasiswa
+ADD CONSTRAINT email_mhs_ck
+CHECK(email LIKE '%@%.%)
+
+-- Set Validasi Nomer HP
+
+-- Set Validasi Tanggal Lahir (harus sebelum umur 16)
+ALTER TABLE mahasiswa
+ADD CONSTRAINT tanggahir_mhs_tl
+CHECK(tanggal_lahir < 2005)
+
+
+
+
+
+TUGAS :
+-- Mengetest Function Validasi Jenis kelamin, Agama, Email, dan Nomer HP
+use test
+DESC mahasiswa
+
+-- Test Validasi Jenis Kelamin
+INSERT INTO mahasiswa (nim, nama, jk, email, no_hp, agama, tempat_lahir, tanggal_lahir, alamat) VALUES ('21090073','Mohamad Idham Bahri','Cowok','idhamtamvanz123@gmail.com','083824723921','Islam','Tegal','2003-02-15','Desa Jembayat, Kec. Margasari, Kab. Tegal');
+
+-- Test Validasi Agama
+INSERT INTO mahasiswa (nim, nama, jk, email, no_hp, agama, tempat_lahir, tanggal_lahir, alamat) VALUES ('21090073','Mohamad Idham Bahri','Laki-laki','idhamtamvanz123@gmail.com','083824723921','Agamaku','Tegal','2003-02-15','Desa Jembayat, Kec. Margasari, Kab. Tegal');
+
+-- Test Validasi Email
+INSERT INTO mahasiswa (nim, nama, jk, email, no_hp, agama, tempat_lahir, tanggal_lahir, alamat) VALUES ('21090073','Mohamad Idham Bahri','Laki-laki','idhamtamvanz123','083824723921','Islam','Tegal','2003-02-15','Desa Jembayat, Kec. Margasari, Kab. Tegal');
+
+-- Test Validasi Nomer HP
+INSERT INTO mahasiswa (nim, nama, jk, email, no_hp, agama, tempat_lahir, tanggal_lahir, alamat) VALUES ('21090073','Mohamad Idham Bahri','Laki-laki','idhamtamvanz123@gmail.com','6283824723921','Islam','Tegal','2003-02-15','Desa Jembayat, Kec. Margasari, Kab. Tegal');
+
+-- Test Validasi Benar
+INSERT INTO mahasiswa (nim, nama, jk, email, no_hp, agama, tempat_lahir, tanggal_lahir, alamat) VALUES ('21090073','Mohamad Idham Bahri','Laki-laki','idhamtamvanz123@gmail.com','083824723921','Islam','Tegal','2003-02-15','Desa Jembayat, Kec. Margasari, Kab. Tegal');
+
