@@ -79,8 +79,25 @@ SELECT dm.nim, dm.nama, dm.nama_ayah, pa.pekerjaan, dm.nama_ibu, pi.pekerjaan FR
 --LEFT JOIN data ayah
 SELECT nim, nama, nama_ayah, pa.pekerjaan AS pekerjaan_ayah
 FROM
-data_mahasiswa dm LEFT JOIN pekerjaan.pa
+data_mahasiswa dm LEFT JOIN pekerjaan pa
 ON dm.id_pekerjaan_ayah = pa.id_pekerjaan
 
+--LEFT JOIN data ibu
+SELECT nim, nama, nama_ibu, pi.pekerjaan AS pekerjaan_ibu
+FROM
+data_mahasiswa dm LEFT JOIN pekerjaan pi
+ON dm.id_pekerjaan_ibu = pi.id_pekerjaan;
 
+--LEFT JOIN data ayah dan ibu
+SELECT nim, nama, nama_ayah, pa.pekerjaan AS pekerjaan_ayah,
+nama_ibu, pi.pekerjaan AS pekerjaan_ibu
+FROM
+data_mahasiswa dm LEFT JOIN pekerjaan pa
+ON dm.id_pekerjaan_ayah = pa.id_pekerjaan
+LEFT JOIN pekerjaan pi
+ON dm.id_pekerjaan_ibu = pi.id_pekerjaan
 
+--RIGHT JOIN Pekerjaan ayah
+SELECT nim, nama, nama_ayah, pa.pekerjaan
+AS pekerjaan_ayah FROM pekerjaan pa RIGHT JOIN
+data_mahasiswa dm ON dm.id_pekerjaan_ayah = pa.id_pekerjaan;
