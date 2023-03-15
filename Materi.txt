@@ -101,3 +101,18 @@ ON dm.id_pekerjaan_ibu = pi.id_pekerjaan
 SELECT nim, nama, nama_ayah, pa.pekerjaan
 AS pekerjaan_ayah FROM pekerjaan pa RIGHT JOIN
 data_mahasiswa dm ON dm.id_pekerjaan_ayah = pa.id_pekerjaan;
+
+--CROSS Join Pekerjaan ayah
+SELECT nim, nama, nama_ayah, pa.pekerjaan AS pekerjaan_ayah
+FROM
+pekerjaan pa CROSS JOIN data_mahasiswa dm
+
+--EQUALS Join
+SELECT nim, nama, nama_ayah,
+pa.pekerjaan AS pekerjaaan_ayah,
+nama, nama_ibu,
+pi.pekerjaan AS pekerjaaan_ibu
+FROM
+pekerjaan pa,pekerjaan pi, data_mahasiswa dm
+WHERE pa.id_pekerjaan = dm.id_pekerjaan_ayah
+AND pi.id_pekerjaan = dm.id_pekerjaan_ibu
