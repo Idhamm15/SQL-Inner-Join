@@ -116,3 +116,71 @@ FROM
 pekerjaan pa,pekerjaan pi, data_mahasiswa dm
 WHERE pa.id_pekerjaan = dm.id_pekerjaan_ayah
 AND pi.id_pekerjaan = dm.id_pekerjaan_ibu
+
+
+--Membuat Views Pekerjaan Ayah
+SELECT nim, nama, nama_ayah, pekerjaan, pekerjaan AS
+pekerjaan_ayah
+FROM data_mahasiswa LEF JOIN pekerjaan
+ON pekerjaan.id_pekerjaan =
+data_mahasiswa.id_pekerjaan_ayah
+
+--Membuat Views Pekerjaan Ibu
+CREATE VIEW pekerjaan_ibu AS
+SELECT nim, nama, nama_ibu, pi.pekerjaan AS pekerjaan_ibu 
+FROM 
+data_mahasiswa dm LEFT JOIN pekerjaan pi 
+ON dm.id_pekerjaan_ibu = pi.id_pekerjaan;
+
+--Membuat Views Pekerjaan Ayah dan Ibu
+CREATE VIEW pekerjaan_ortu AS
+SELECT nim, nama, nama_ayah, pa.pekerjaan AS pekerjaan_ayah,
+nama_ibu, pi.pekerjaan AS pekerjaan_ibu
+FROM
+data_mahasiswa dm LEFT JOIN pekerjaan pa
+ON dm.id_pekerjaan_ayah = pa.id_pekerjaan
+LEFT JOIN pekerjaan pi
+ON dm.id_pekerjaan_ibu = pi.id_pekerjaan
+
+--Membuat View dengan Natural Join
+CREATE VIEW pekerjaan_orangtua AS
+SELECT * FROM pekerjaan_ibu NATURAL JOIN pekerjaan_ayah
+
+-- Pivot Table
+CREATE TABLE nilai_tugas
+(nim char (8), mata_kuliah varchar (10) , tugas_ke int (2), nilai int(3))
+
+-- Cross Join
+SELECT data_mahasiswa.nim, nilai_mk.* 
+FROM data_mahasiswa CROSS JOIN nilai_mk;
+
+-- Insert Nilai Tugas
+INSERT INTO nilai_tugas
+SELECT data_mahasiswa.nim, nilai_mk.*
+FROM data_mahasiswa CROSS JOIN nilai_mk;
+
+-- Pivot Table
+SELECT nim, 
+CASE WHEN mata_kuliah = 'SBD' THEN nilai END AS SBD,
+CASE WHEN mata_kuliah = 'WEB' THEN nilai END AS WEB,
+CASE WHEN mata_kuliah = 'Jarkom' THEN nilai END AS JARKOM
+FROM nilai_tugas
+
+-- Pivot Table Final
+SELECT nilai_tugas.nim, nama,
+AVG (CASE WHEN mata_kuliah = 'SBD' THEN nilai END) AS SBD,
+AVG (CASE WHEN mata_kuliah = 'WEB' THEN nilai END) AS WEB,
+AVG (CASE WHEN mata_kuliah = 'Jarkom' THEN nilai END) AS JARKOM
+FROM nilai_tugas INNER JOIN data_mahasiswa
+ON nilai_tugas.nim = data_mahasiswa.nim
+GROUP BY nim;
+
+-- View Pivot Table Final
+CREATE VIEW detail_nilai_tugas AS
+SELECT nilai_tugas.nim, nama,
+AVG (CASE WHEN mata_kuliah = 'SBD' THEN nilai END) AS SBD,
+AVG (CASE WHEN mata_kuliah = 'WEB' THEN nilai END) AS WEB,
+AVG (CASE WHEN mata_kuliah = 'Jarkom' THEN nilai END) AS JARKOM
+FROM nilai_tugas INNER JOIN data_mahasiswa
+ON nilai_tugas.nim = data_mahasiswa.nim
+GROUP BY nim;
